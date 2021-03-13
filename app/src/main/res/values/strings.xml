@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">The Dollar Game</string>
+    <string name="back">Back</string>
+    <string name="give_up">Give Up</string>
+    <string name="bec_hardening">Becoming Harder And Harder</string>
+    <string name="title">The Dollar Game by Antonio Noack (Jena, Germany)</string>
+    <string name="cust_setts">Custom Settings</string>
+    <string name="continu">Continue</string>
+    <string name="start">Start</string>
+    <string name="number_of_edges">Number of Edges</string>
+    <string name="number_of_vertices">Number of Vertices</string>
+    <string name="amount_of_money">Amount of Money</string>
+    <string name="tipps">Press short to share the money, long to collect.\nTry to save everyone from debt!\n1 Touch = Click, 2 Touches = Move / Zoom.</string>
+    <string name="back_to_menu">Back to Menu</string>
+    <string name="next">Next</string>
+    <string name="congratulations">Done! :D</string>
+    <string name="level">#level</string>
+    <string name="level_title">#vV/#eE/#m$</string>
+</resources>

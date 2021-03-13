@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">The Dollar Game</string>
+    <string name="back">Regresa</string>
+    <string name="give_up">Rendirse</string>
+    <string name="bec_hardening">Cada vez más difícil</string>
+    <string name="title">El juego de dólar de Antonio Noack (Jena, Germany)</string>
+    <string name="cust_setts">Ajustes personalizados</string>
+    <string name="continu">Continuar</string>
+    <string name="start">Comienzo</string>
+    <string name="number_of_edges">Número de Bordes</string>
+    <string name="number_of_vertices">Número de Vértices</string>
+    <string name="amount_of_money">Cantidad de dólar</string>
+    <string name="tipps">Presione brevemente para compartir el dinero, largo para recolectar.\n¡Intente salvar a todos de sus deudas!\nToque = Clic, 2 Toques = Mover / Zoom.\nIf you speak a better Spanish than myself, and want to help, write me!</string>
+    <string name="back_to_menu">Volver al menu</string>
+    <string name="next">Entrante</string>
+    <string name="congratulations">¡Trato hecho! :D</string>
+    <string name="level">#level</string>
+    <string name="level_title">#vV/#eE/#m$</string>
+</resources>

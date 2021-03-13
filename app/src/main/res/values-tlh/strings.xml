@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Huch Qujmey</string>
+    <string name="back">chap</string>
+    <string name="give_up">jegh</string>
+    <string name="bec_hardening">moj QatlhwI\'</string>
+    <string name="title">Huch Qujmey vo\' Antonio Noack / Jena (Thüringen)</string>
+    <string name="cust_setts">tIgh Qujmey</string>
+    <string name="continu">taH</string>
+    <string name="start">yIHIv</string>
+    <string name="number_of_edges">tlhegh</string>
+    <string name="number_of_vertices">nuvpu\'</string>
+    <string name="amount_of_money">Huch</string>
+    <string name="tipps">moq ngaj -> Huch ngIp, \'aD -> boS\nHoch vo\'tlhab huch luj!\n1 Heng = vay, 2 Heng = vIH / Sal / puH</string>
+    <string name="back_to_menu">rom\'a\' HIDjolev</string>
+    <string name="next">veb</string>
+    <string name="congratulations">vu\'!</string>
+    <string name="level">#level</string>
+    <string name="level_title">#vT/#eN/#mH</string>
+</resources>

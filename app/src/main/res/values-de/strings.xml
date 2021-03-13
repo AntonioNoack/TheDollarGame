@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">The Dollar Game</string>
+    <string name="back">Zurück</string>
+    <string name="give_up">Aufgeben</string>
+    <string name="bec_hardening">Immer schwieriger</string>
+    <string name="title">The Dollar Game von Antonio Noack aus Jena (Thüringen)</string>
+    <string name="cust_setts">Eigenes Level</string>
+    <string name="continu">Weiterspielen</string>
+    <string name="start">Start</string>
+    <string name="number_of_edges">Verbindungen</string>
+    <string name="number_of_vertices">Personen</string>
+    <string name="amount_of_money">Geld im Umlauf</string>
+    <string name="tipps">Drücke kurz, um Geld zu verteilen, lang um es einzusammeln.\nVersuche, jeden aus seinen Schulden zu befreien!\n1 Finger = klicken, 2 Finger = bewegen / zoomen</string>
+    <string name="back_to_menu">Zurück zum Menü</string>
+    <string name="next">Nächstes</string>
+    <string name="congratulations">Geschafft! :D</string>
+    <string name="level">#level</string>
+    <string name="level_title">#vP/#eV/#m$</string>
+</resources>

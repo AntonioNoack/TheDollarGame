@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">The Dollar Game</string>
+    <string name="back">Retourner</string>
+    <string name="give_up">Renoncer</string>
+    <string name="bec_hardening">Plus en plus</string>
+    <string name="title">Le Jeu Du Dollar de Antonio Noack de Iéna (Thuringe)</string>
+    <string name="cust_setts">Propre Niveau</string>
+    <string name="continu">Continue</string>
+    <string name="start">Commencer</string>
+    <string name="number_of_edges">Composés</string>
+    <string name="number_of_vertices">Personnes</string>
+    <string name="amount_of_money">l\'Argent</string>
+    <string name="tipps">Appuyez brièvement, pour distribuer de l\'argent, long pour rassembler.\nLibérez tous de leurs dettes!\n1 Doigt = cliquer, 2 Doigt = mouvement / zoomer</string>
+    <string name="back_to_menu">Zurück zum Menü</string>
+    <string name="next">Suivant Niveau</string>
+    <string name="congratulations">Fait! :D</string>
+    <string name="level">#level</string>
+    <string name="level_title">#vC/#eP/#m$</string>
+</resources>
