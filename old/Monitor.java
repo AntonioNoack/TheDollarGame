@@ -4,11 +4,12 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.appcompat.widget.AppCompatImageView;
 
 import static java.lang.Math.abs;
 import static java.lang.Math.sqrt;
@@ -322,8 +323,8 @@ public class Monitor extends AppCompatImageView {
 
     @Override protected void onDraw(Canvas canvas) {
 
-        w = canvas.getWidth();
-        h = canvas.getHeight();
+        w = getMeasuredWidth();
+        h = getMeasuredHeight();
 
         canvas.drawRect(0, 0, w, h, background);
 
@@ -336,7 +337,7 @@ public class Monitor extends AppCompatImageView {
             for(Dot a:net.dots){
                 if(a.connected != null) for(int i=0,l=a.edges();i<l;i++){
                     Dot b = a.get(i);
-                    // todo color dependend on the money difference
+                    // todo color dependent on the money difference
                     if(b.compareTo(a) < 0) canvas.drawLine(screenX(a.x), screenY(a.y), screenX(b.x), screenY(b.y), linePaint);
                 }
             }
