@@ -4,12 +4,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
-import android.support.v4.view.TintableBackgroundView;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.TypedValue;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -20,7 +16,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
-import java.util.Random;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.TintableBackgroundView;
 
 public class AllManager extends AppCompatActivity {
 
@@ -29,17 +27,18 @@ public class AllManager extends AppCompatActivity {
     private View cont;
 
     private Dialog dialog;
-    private Monitor monitor;
+    private Monitor2 monitor;
     private Mode mode = Mode.LEVEL;
     private TextView levelButton;
     private ViewGroup levelButtons;
     private int playingLevel;
-    private boolean betterNets = false;
+    private final boolean betterNets = false;
+    static int maxConvolutions = 5;
 
     enum Mode {
         CUSTOM(){
             @Override void next(AllManager all, int lvl) {
-                all.monitor.setNet(new Net(all.verts, all.edges, all.money, all.betterNets));
+                all.monitor.setNet(new Net(all.verts, all.edges, all.money, all.betterNets, maxConvolutions));
                 if(all.dialog != null) all.dialog.dismiss();
                 all.levelButton.setText(all.getResources().getString(R.string.level_title)
                         .replace("#v", all.verts+"")
@@ -49,7 +48,7 @@ public class AllManager extends AppCompatActivity {
         }, LEVEL(){
             @Override void next(AllManager all, int lvl) {
                 int v = (int) Math.pow(lvl, 1.2) + 3, e = (int) Math.pow(lvl, 1.5)+3;
-                all.monitor.setNet(new Net(v, e, e-v+1, all.betterNets));
+                all.monitor.setNet(new Net(v, e, e-v+1, all.betterNets, 0));
                 if(all.dialog != null) all.dialog.dismiss();
                 all.levelButton.setText(all.getResources().getString(R.string.level).replace("#level", (lvl+1)+""));
             }
@@ -57,7 +56,7 @@ public class AllManager extends AppCompatActivity {
             @Override void next(AllManager all, int lvl) {
                 int v = (int) (Math.random() * 10) + 3, e = v + (int)(Math.random() * 10);
                 int m = e-v+(int)(Math.random() * 5);
-                all.monitor.setNet(new Net(v, e, m, all.betterNets));
+                all.monitor.setNet(new Net(v, e, m, all.betterNets, maxConvolutions));
                 if(all.dialog != null) all.dialog.dismiss();
                 all.levelButton.setText(all.getResources().getString(R.string.level).replace("#level", (lvl+1)+""));
                 all.levelButton.setText(all.getResources().getString(R.string.level_title)
@@ -74,25 +73,21 @@ public class AllManager extends AppCompatActivity {
         dialog = new AlertDialog.Builder(this)
                 .setView(R.layout.m_done)
                 .show();
-        dialog.findViewById(R.id.back_to_menu).setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                previous(flipper);
-                monitor.setNet(null);
-                dialog.dismiss();
-            }
+        dialog.findViewById(R.id.back_to_menu).setOnClickListener(v -> {
+            previous(flipper);
+            monitor.setNet(null);
+            dialog.dismiss();
         });
-        dialog.findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                if(mode == Mode.CUSTOM){
-                    mode.next(AllManager.this, 0);
-                } else if(mode == Mode.LEVEL){
-                    int bestLvl = Math.max(pref.getInt("lvl", 0), ++playingLevel);
-                    save(bestLvl);
-                    mode.next(AllManager.this, playingLevel);
-                } else {
-                    mode.next(AllManager.this, 0);
-                } dialog.dismiss();
-            }
+        dialog.findViewById(R.id.next).setOnClickListener(v -> {
+            if(mode == Mode.CUSTOM){
+                mode.next(AllManager.this, 0);
+            } else if(mode == Mode.LEVEL){
+                int bestLvl = Math.max(pref.getInt("lvl", 0), ++playingLevel);
+                save(bestLvl);
+                mode.next(AllManager.this, playingLevel);
+            } else {
+                mode.next(AllManager.this, 0);
+            } dialog.dismiss();
         });
     }
 
@@ -123,12 +118,10 @@ public class AllManager extends AppCompatActivity {
             b.setLayoutParams(params);
             b.setText("Level "+(i+1));
             b.setBackgroundColor(bgColor);
-            b.setOnClickListener(new View.OnClickListener() {
-                @Override public void onClick(View v) {
-                    mode = Mode.LEVEL;
-                    mode.next(AllManager.this, playingLevel = j);
-                    open(R.id.game);
-                }
+            b.setOnClickListener(v -> {
+                mode = Mode.LEVEL;
+                mode.next(AllManager.this, playingLevel = j);
+                open(R.id.game);
             });
             levelButtons.addView(b);
         }
@@ -153,57 +146,47 @@ public class AllManager extends AppCompatActivity {
 
         levelButtons = findViewById(R.id.level_buttons);
         cont = findViewById(R.id.continu);
-        findViewById(R.id.becomingHarder).setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View w) {
-                mode = Mode.LEVEL;
-                mode.next(AllManager.this, playingLevel = pref.getInt("lvl", 0));
-                open(R.id.game);
-            }
+        findViewById(R.id.becomingHarder).setOnClickListener(w -> {
+            mode = Mode.LEVEL;
+            mode.next(AllManager.this, playingLevel = pref.getInt("lvl", 0));
+            open(R.id.game);
         });
-        findViewById(R.id.random).setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                mode = Mode.RANDOM;
-                mode.next(AllManager.this, 0);
-                open(R.id.game);
-            }
+        findViewById(R.id.random).setOnClickListener(v -> {
+            mode = Mode.RANDOM;
+            mode.next(AllManager.this, 0);
+            open(R.id.game);
         });
-        findViewById(R.id.custom).setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                // todo open dialog
-                dialog = new AlertDialog.Builder(AllManager.this)
-                        .setView(R.layout.m_custom)
-                        .setCancelable(true)
-                        .show();
-                dialog.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
-                    @Override public void onClick(View v) {
-                        EditText vert = dialog.findViewById(R.id.vertices), edge = dialog.findViewById(R.id.edges), mone = dialog.findViewById(R.id.money);
-                        String vs = vert.getText().toString(), es = edge.getText().toString(), ms = mone.getText().toString();
-                        verts = 3;
-                        edges = 3;
-                        money = 1;
-                        try {
-                            verts = Integer.parseInt(vs);
-                            edges = Integer.parseInt(es);
-                            money = Integer.parseInt(ms);
+        findViewById(R.id.custom).setOnClickListener(v -> {
+            // todo open dialog
+            dialog = new AlertDialog.Builder(AllManager.this)
+                    .setView(R.layout.m_custom)
+                    .setCancelable(true)
+                    .show();
+            dialog.findViewById(R.id.ok).setOnClickListener(v1 -> {
+                EditText vert = dialog.findViewById(R.id.vertices), edge = dialog.findViewById(R.id.edges), mone = dialog.findViewById(R.id.money);
+                String vs = vert.getText().toString(), es = edge.getText().toString(), ms = mone.getText().toString();
+                verts = 3;
+                edges = 3;
+                money = 1;
+                try {
+                    verts = Integer.parseInt(vs);
+                    edges = Integer.parseInt(es);
+                    money = Integer.parseInt(ms);
 
-                            mode = Mode.CUSTOM;
-                            mode.next(AllManager.this, 0);
+                    mode = Mode.CUSTOM;
+                    mode.next(AllManager.this, 0);
 
-                            open(R.id.game);
+                    open(R.id.game);
 
-                        } catch (NumberFormatException e){
-                            Toast.makeText(AllManager.this, "Numbers couldn't be parsed!", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+                } catch (NumberFormatException e){
+                    Toast.makeText(AllManager.this, "Numbers couldn't be parsed!", Toast.LENGTH_SHORT).show();
+                }
+            });
 
-            }
         });
-        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                cont.setVisibility(View.VISIBLE);
-                previous(flipper);
-            }
+        findViewById(R.id.back).setOnClickListener(v -> {
+            cont.setVisibility(View.VISIBLE);
+            previous(flipper);
         });
         levelButton = findViewById(R.id.levelButton);
         /*findViewById(R.id.giveup).setOnClickListener(new View.OnClickListener() {
@@ -220,22 +203,16 @@ public class AllManager extends AppCompatActivity {
         });*/
 
         final Button button = findViewById(R.id.shuffleButton);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                shuffleMode = !shuffleMode;
-                if(button instanceof TintableBackgroundView){
-                    ((TintableBackgroundView) button).setSupportBackgroundTintList(
-                            ColorStateList.valueOf(getResources().getColor(shuffleMode ? R.color.colorAccent: R.color.colorPrimaryDark)));
-                }
-                // monitor.selected = null;
+        button.setOnClickListener(v -> {
+            shuffleMode = !shuffleMode;
+            if(button instanceof TintableBackgroundView){
+                ((TintableBackgroundView) button).setSupportBackgroundTintList(
+                        ColorStateList.valueOf(getResources().getColor(shuffleMode ? R.color.colorAccent: R.color.colorPrimaryDark)));
             }
+            // monitor.selected = null;
         });
         button.performClick();
-        cont.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                open(R.id.game);
-            }
-        });
+        cont.setOnClickListener(v -> open(R.id.game));
 
         // todo continue a game?
         // todo if finding last game, enable continue
@@ -286,7 +263,9 @@ public class AllManager extends AppCompatActivity {
         View view = getCurrentFocus();
         if (view != null) {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            if(imm != null){
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
         }
     }
 }
