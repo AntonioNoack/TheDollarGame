@@ -57,27 +57,6 @@ public class Net {
         return score;
     }
 
-    /*private float arcWeight = 1;
-
-    private float cross2(float ax, float ay, float bx, float by){
-        float arc = (float) atan2(ay-by, ax-bx) / 3.1416f;// [-1,1]
-        if(arc < 0) arc = 1 - arc;
-        int index = (int) (arc * 16);
-        return arcs[index & 15] / arcWeight;
-    }
-
-    private void addArc(float ax, float ay, float bx, float by){
-        float arc = (float) atan2(ay-by, ax-bx) / 3.1416f;// [-1,1]
-        if(arc < 0) arc = 1 - arc;
-        int index = (int) (arc * 16);
-        arcs[(index+15) & 15] ++;
-        arcs[index & 15] += 3;
-        arcs[(index+1) & 15] ++;
-        arcWeight += 5;
-    }
-
-    private float[] arcs = new float[16];*/
-
     public Net(int vertices, int edges, int money, boolean betterNets, int maxConvolutions) {
 
         dots = new Dot[vertices];
@@ -93,7 +72,7 @@ public class Net {
         int l = vertices - 1;
         for (int j = 1; j < l && edges > 0; j++, edges--) {
             dots[j - 1].connect(dots[j + 1]);
-        }// dots[l].connect(dots[0]); edges--;
+        }
 
         int tries = 5 * edges;
         while (edges > 0 && tries-- > 0) {
